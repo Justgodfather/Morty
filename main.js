@@ -82,3 +82,56 @@ btn.onclick = function () {
   start();
   btn.style.display = "none";
 };
+
+let app = document.querySelector("#app");
+let table = document.createElement("table");
+table.style.width = "600px";
+table.style.border = "2px solid black";
+// table.style.height = '500px';
+let tr = document.createElement("tr");
+
+let td = document.createElement("th");
+td.style.border = "1px solid black";
+td.innerText = "Country";
+
+let td1 = document.createElement("th");
+
+td1.style.border = "1px solid black";
+td1.innerText = "Flags";
+
+let td2 = document.createElement("th");
+td2.style.border = "1px solid black";
+td2.innerText = "Capital";
+
+let td3 = document.createElement("th");
+td3.style.border = "1px solid black";
+td3.innerText = "Region";
+
+let td4 = document.createElement("th");
+td4.style.border = "1px solid black";
+td4.innerText = "translations";
+
+tr.append(td, td1, td2, td3, td4);
+table.append(tr);
+
+app.append(table);
+
+function getCountry() {
+  fetch("https://restcountries.com/v3.1/all")
+    .then((result) => result.json())
+    .then((data) => {
+      data.forEach((item) => {
+        let lang = Object.values(item.languages)[0];
+        table.innerHTML += `<tr>
+          <td style="border: 1px solid black">${item.name.official}</td>
+          <td style="border: 1px solid black; text-align: center"><img src= "${item.flags.svg}" alt="ICON" style="width: 40px"></td>
+          
+          <td style="border: 1px solid black">${item.capital}</td>
+          <td style="border: 1px solid black">${item.region}</td>
+          <td style="border: 1px solid black">${lang}</td>
+        </tr>`;
+      });
+    });
+}
+
+getCountry();
